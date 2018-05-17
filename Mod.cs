@@ -93,16 +93,16 @@ namespace CookingSkill
                 }
                 Random rand = new Random((int)(Game1.stats.daysPlayed + Game1.uniqueIDForThisGame + (uint)obj.ParentSheetIndex + (uint)amtCrafted));
 
-                obj.edibility = (int)(obj.edibility * getEdibilityMultiplier());
+                obj.edibility.Set((int) (obj.edibility * getEdibilityMultiplier()));
 
                 if (Game1.player.professions.Contains(PROFESSION_SELLPRICE))
                 {
-                    obj.price = (int)(obj.price * 1.2);
+                    obj.price.Set((int)(obj.price * 1.2));
                 }
 
                 if (Game1.player.professions.Contains(PROFESSION_SILVER))
                 {
-                    obj.quality = 1;
+                    obj.quality.Set(1);
                 }
 
                 var used = new List<NewCraftingPage.ConsumedItem>();
@@ -124,7 +124,7 @@ namespace CookingSkill
                     }
 
                     if (rand.NextDouble() < chance)
-                        obj.quality = iq;
+                        obj.quality.Set(iq);
                 }
 
                 if (rand.NextDouble() < getNoConsumeChance())
@@ -193,7 +193,7 @@ namespace CookingSkill
 
             SaveEvents.AfterLoad += afterLoad;
             SaveEvents.AfterSave += afterSave;
-            LocationEvents.CurrentLocationChanged += locChanged;
+            LocationEvents.LocationsChanged += locChanged;
             GameEvents.UpdateTick += update;
             GraphicsEvents.OnPostRenderGuiEvent += drawAfterGui;
             
@@ -231,9 +231,9 @@ namespace CookingSkill
         private Buff lastFood = null, lastDrink = null;
         private void update(object sender, EventArgs args)
         {
-            if (Game1.isEating != wasEating)
+            if (Game1.player.isEating != wasEating)
             {
-                if ( !Game1.isEating )
+                if ( !Game1.player.isEating )
                 {
                     // Apparently this happens when the ask to eat dialog opens, but they pressed no.
                     // So make sure something was actually consumed.
@@ -320,7 +320,7 @@ namespace CookingSkill
                                 Log.trace("Buffing plain");
                                 Random rand = new Random();
                                 int[] newAttr = new int[12];
-                                int count = 1 + Math.Min(obj.edibility / 30, 3);
+                                int count = 1 + Math.Min(obj.edibility.Value / 30, 3);
                                 for (int i = 0; i < count; ++i)
                                 {
                                     int attr = rand.Next(10);
@@ -368,13 +368,13 @@ namespace CookingSkill
                         }
                     }
                 }
-                Log.trace("Eating:" + Game1.isEating);
+                Log.trace("Eating:" + Game1.player.isEating);
                 Log.trace("prev:" + prevToEatStack);
                 Log.trace("I:"+Game1.player.itemToEat + " " + ((Game1.player.itemToEat != null) ? Game1.player.itemToEat.getStack() : -1));
                 Log.trace("A:" + Game1.player.ActiveObject + " " + ((Game1.player.ActiveObject != null) ? Game1.player.ActiveObject.getStack() : -1));
                 prevToEatStack = (Game1.player.itemToEat != null ? Game1.player.itemToEat.Stack : -1);
             }
-            wasEating = Game1.isEating;
+            wasEating = Game1.player.isEating;
 
             if (Game1.activeClickableMenu != null)
             {

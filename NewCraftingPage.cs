@@ -252,7 +252,7 @@ namespace CookingSkill
                 int num = Game1.oldKBState.IsKeyDown(Keys.LeftShift) ? 5 : 1;
                 for (int i = 0; i < num; i++)
                 {
-                    if (current.containsPoint(x, y) && !current.hoverText.Equals("ghosted") && this.pagesOfCraftingRecipes[this.currentCraftingPage][current].doesFarmerHaveIngredientsInInventory(this.cooking ? Utility.getHomeOfFarmer(Game1.player).fridge.items : null))
+                    if (current.containsPoint(x, y) && !current.hoverText.Equals("ghosted") && this.pagesOfCraftingRecipes[this.currentCraftingPage][current].doesFarmerHaveIngredientsInInventory(this.cooking ? Utility.getHomeOfFarmer(Game1.player).fridge.Value.items : null))
                     {
                         this.clickCraftingRecipe(current, i == 0);
                     }
@@ -341,7 +341,7 @@ namespace CookingSkill
             this.heldItem = this.inventory.rightClick(x, y, this.heldItem, true);
             foreach (ClickableTextureComponent current in this.pagesOfCraftingRecipes[this.currentCraftingPage].Keys)
             {
-                if (current.containsPoint(x, y) && !current.hoverText.Equals("ghosted") && this.pagesOfCraftingRecipes[this.currentCraftingPage][current].doesFarmerHaveIngredientsInInventory(this.cooking ? Utility.getHomeOfFarmer(Game1.player).fridge.items : null))
+                if (current.containsPoint(x, y) && !current.hoverText.Equals("ghosted") && this.pagesOfCraftingRecipes[this.currentCraftingPage][current].doesFarmerHaveIngredientsInInventory(this.cooking ? Utility.getHomeOfFarmer(Game1.player).fridge.Value.items : null))
                 {
                     this.clickCraftingRecipe(current, true);
                 }
@@ -448,7 +448,7 @@ namespace CookingSkill
                 {
                     current.draw(b, Color.Black * 0.35f, 0.89f);
                 }
-                else if (!this.pagesOfCraftingRecipes[this.currentCraftingPage][current].doesFarmerHaveIngredientsInInventory(this.cooking ? Utility.getHomeOfFarmer(Game1.player).fridge.items : null))
+                else if (!this.pagesOfCraftingRecipes[this.currentCraftingPage][current].doesFarmerHaveIngredientsInInventory(this.cooking ? Utility.getHomeOfFarmer(Game1.player).fridge.Value.items : null))
                 {
                     current.draw(b, Color.LightGray * 0.4f, 0.89f);
                 }
@@ -552,23 +552,23 @@ namespace CookingSkill
                     StardewValley.Locations.FarmHouse homeOfFarmer = Utility.getHomeOfFarmer(Game1.player);
                     if (homeOfFarmer != null)
                     {
-                        for (int k = homeOfFarmer.fridge.items.Count - 1; k >= 0; k--)
+                        for (int k = homeOfFarmer.fridge.Value.items.Count - 1; k >= 0; k--)
                         {
-                            if (homeOfFarmer.fridge.items[k] != null && homeOfFarmer.fridge.items[k] is StardewValley.Object && (((StardewValley.Object)homeOfFarmer.fridge.items[k]).parentSheetIndex == recipeList.Keys.ElementAt(i) || ((Object)homeOfFarmer.fridge.items[k]).category == recipeList.Keys.ElementAt(i)))
+                            if (homeOfFarmer.fridge.Value.items[k] != null && homeOfFarmer.fridge.Value.items[k] is StardewValley.Object && (((StardewValley.Object)homeOfFarmer.fridge.Value.items[k]).parentSheetIndex == recipeList.Keys.ElementAt(i) || ((Object)homeOfFarmer.fridge.Value.items[k]).category == recipeList.Keys.ElementAt(i)))
                             {
                                 int num2 = recipeList[recipeList.Keys.ElementAt(i)];
                                 Dictionary<int, int> dictionary = recipeList;
                                 int key = recipeList.Keys.ElementAt(i);
-                                dictionary[key] -= homeOfFarmer.fridge.items[k].Stack;
+                                dictionary[key] -= homeOfFarmer.fridge.Value.items[k].Stack;
                                 ///////////////////////////////////////////////////////
                                 if (used != null)
-                                    used.Add(new ConsumedItem(homeOfFarmer.fridge.items[k] as StardewValley.Object));
+                                    used.Add(new ConsumedItem(homeOfFarmer.fridge.Value.items[k] as StardewValley.Object));
                                 if (actuallyConsume)
                                 ///////////////////////////////////////////////////////
-                                homeOfFarmer.fridge.items[k].Stack -= num2;
-                                if (homeOfFarmer.fridge.items[k].Stack <= 0)
+                                homeOfFarmer.fridge.Value.items[k].Stack -= num2;
+                                if (homeOfFarmer.fridge.Value.items[k].Stack <= 0)
                                 {
-                                    homeOfFarmer.fridge.items[k] = null;
+                                    homeOfFarmer.fridge.Value.items[k] = null;
                                 }
                                 if (recipeList[recipeList.Keys.ElementAt(i)] <= 0)
                                 {
