@@ -213,7 +213,7 @@ namespace CookingSkill
                 data.experience = Game1.player.experiencePoints[6];
 
                 var oldExp = Game1.player.experiencePoints;
-                Game1.player.experiencePoints = new int[6];
+                Game1.player.experiencePoints.Set(new int[6]);
                 for ( int i = 0; i < 6; ++i )
                 {
                     Game1.player.experiencePoints[i] = oldExp[i];
@@ -564,7 +564,7 @@ namespace CookingSkill
             {
                 Util.DecompileComment("This is where AllProfessions does it.");
                 Util.DecompileComment("This is that mod's code, too (from ILSpy, anyways). Just trying to give credit where credit is due. :P");
-                List<int> professions = Game1.player.professions;
+                List<int> professions = Game1.player.professions.ToList();
                 List<List<int>> list = new List<List<int>> { professions5, professions10, };
                 foreach (List<int> current in list)
                 {

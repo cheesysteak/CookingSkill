@@ -77,7 +77,7 @@ namespace CookingSkill
                     serializableDictionary.Add(current, Game1.player.craftingRecipes[current]);
                 }
             }
-            Game1.player.craftingRecipes = serializableDictionary;
+            Game1.player.craftingRecipes.Set(serializableDictionary);
             this.trashCan = new ClickableTextureComponent(new Rectangle(this.xPositionOnScreen + width + 4, this.yPositionOnScreen + height - Game1.tileSize * 3 - Game1.tileSize / 2 - IClickableMenu.borderWidth - 104, Game1.tileSize, 104), Game1.mouseCursors, new Rectangle(669, 261, 16, 26), (float)Game1.pixelZoom, false)
             {
                 myID = 106
@@ -85,7 +85,7 @@ namespace CookingSkill
             List<string> list = new List<string>();
             if (!cooking)
             {
-                using (Dictionary<string, int>.KeyCollection.Enumerator enumerator2 = Game1.player.craftingRecipes.Keys.GetEnumerator())
+                using (IEnumerator<string> enumerator2 = Game1.player.craftingRecipes.Keys.GetEnumerator())
                 {
                     while (enumerator2.MoveNext())
                     {
@@ -309,9 +309,8 @@ namespace CookingSkill
             }
             if (!this.cooking && Game1.player.craftingRecipes.ContainsKey(this.pagesOfCraftingRecipes[this.currentCraftingPage][c].name))
             {
-                SerializableDictionary<string, int> craftingRecipes = Game1.player.craftingRecipes;
                 string name = this.pagesOfCraftingRecipes[this.currentCraftingPage][c].name;
-                craftingRecipes[name] += this.pagesOfCraftingRecipes[this.currentCraftingPage][c].numberProducedPerCraft;
+                Game1.player.craftingRecipes[name] += this.pagesOfCraftingRecipes[this.currentCraftingPage][c].numberProducedPerCraft;
             }
             if (!didCraft)
                 return;
